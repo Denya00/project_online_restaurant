@@ -8,7 +8,6 @@ from datetime import datetime
 import os
 import uuid
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column, joinedload
-from geopy.distance import geodesic
 import bcrypt
 
 app = Flask(__name__)
