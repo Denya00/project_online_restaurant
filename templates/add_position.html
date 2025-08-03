@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Position</title>
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+</head>
+<body>
+<h2>Add New Position</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <input type="text" name="name" placeholder="Name of the position" required>
+
+        <input type="file" name="img" accept="image/*" required>
+
+        <textarea name="ingredients" placeholder="Ingredients" required></textarea>
+
+        <textarea name="description" placeholder="Description" required></textarea>
+
+        <input type="number" name="price" placeholder="Price ($)" required>
+
+        <input type="number" name="weight" placeholder="Weight (g)" required>
+
+        <button type="submit">Add Product</button>
+    </form>
+</body>
+</html>
+<style>
+    body {
+        font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+        background: #f7f7f7;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    h2 {
+        font-size: 2.5rem;
+        letter-spacing: 0.1em;
+        color: #2d2d2d;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    form {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 2.5rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 320px;
+    }
+    input[type="text"], input[type="number"], textarea {
+        font-size: 1.1rem;
+        padding: 0.7em 1em;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 1.2rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    button[type="submit"] {
+        font-size: 1.2rem;
+        background: #e60026;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 0.7em 2em;
+        cursor: pointer;
+        letter-spacing: 0.1em;
+    }

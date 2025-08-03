@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>All all_users</title>
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+</head>
+<body>
+<h2>Users</h2>
+<table>
+    <tr><th>ID</th><th>Username</th><th>Email</th></tr>
+    {% for user in all_users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.nickname }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

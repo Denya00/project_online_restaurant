@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Positions Management</title>
+</head>
+<body>
+<style>
+    body {
+        font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+</style>
+    <div class="nav-links">
+        <a href="/add_position">Add Position</a>
+        <a href="/edit_position">Edit Position</a>
+    </div>
+</body>
+</html>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}

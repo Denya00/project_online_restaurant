@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - {{ position.name }}</title>
+    <style>
+        :root {
+            --primary: #e60026;
+            --primary-dark: #c40020;
+            --card-max: 560px;
+            --page-pad: 16px;
+        }
+
+        .top-right-buttons {
+            position: fixed;
+            top: var(--page-pad);
+            right: var(--page-pad);
+            display: flex;
+            gap: 8px;
+            z-index: 9999;
+        }
+        .top-right-buttons button {
+            font-size: 0.9rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.4em 1em;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .top-right-buttons button a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .top-right-buttons button:hover {
+            background: var(--primary-dark);
+        }
+
+        .menu-item {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 1.25rem 1.5rem;
+            width: min(92vw, var(--card-max));   
+            margin: 120px auto 2rem;             
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .menu-item img {
+            width: 200px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .menu-item pre {
+            white-space: pre-wrap;   
+            word-wrap: break-word;
+        }
+
+        .menu-item input[type="submit"] {
+            font-size: 0.9rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.45em 1.1em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .menu-item input[type="submit"]:hover {
+            background: var(--primary-dark);
+        }
+
+        .menu-item input[type="number"] {
+            width: 80px;
+            padding: 0.3em 0.4em;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash-messages">
+      <div class="alert">{{ messages[-1] }}</div>
+    </div>
+  {% endif %}
+{% endwith %}
+
+<div class="top-right-buttons">
+        <button class="menu-btn"><a href="/menu">Back to Menu</a></button>
+</div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash-messages">
+      <div class="alert">{{ messages[-1] }}</div>
+    </div>
+  {% endif %}
+{% endwith %}
+
+<div class="menu-item">
+    <img src="/static/menu/{{position.file_name}}" alt="{{ position.name }}">
+
+    <p>Description:</p>
+    <pre>{{position.description}}</pre>
+    <p>{{position.price}}$</p>
+
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <input type="hidden" name="name" value="{{position.name}}">
+        <input type="number" name="num" min="1" value="1" required>
+        <input type="submit" value="Add">
+    </form>
+
+</div>
+
+</body>
+</html>

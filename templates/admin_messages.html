@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - User Messages</title>
+</head>
+<body>
+    <h1>User Messages</h1>
+
+    {% for msg in messages %}
+        <div>
+            <p><strong>User ID:</strong> {{ msg.user_id }}</p>
+            <p><strong>Message:</strong></p>
+            <p>{{ msg.message }}</p>
+            <hr>
+        </div>
+    {% else %}
+        <p>No messages found.</p>
+    {% endfor %}
+
+    <a href="/welcome">Back to Main Menu</a>
+</body>
+</html>

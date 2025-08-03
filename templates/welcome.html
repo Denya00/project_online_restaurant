@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Welcome {{ user.nickname }} - Umami Moon</title>
+<link rel="icon" href="static/icon.png" type="image/x-icon" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+    background: #fef9e7;
+  }
+
+  .top-tab {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: #e60026;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+
+  .top-tab .nav-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .top-tab .nav-buttons a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    background: #b8001c;
+    transition: background 0.2s;
+  }
+
+  .top-tab .user-nickname {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+  margin: 0 1rem;
+  white-space: nowrap;
+    }
+
+  .top-tab .nav-buttons a:hover,
+  .top-tab .nav-buttons a:focus {
+    background: #ff2e4a;
+    outline: none;
+  }
+
+  .top-tab .user-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .top-tab .user-area img.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+  }
+
+  .top-tab .user-area a {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    background: #b8001c;
+    transition: background 0.2s;
+    margin-left: 0.8rem;
+    display: inline-block;
+  }
+
+  .top-tab .user-area a:hover,
+  .top-tab .user-area a:focus {
+    background: #ff2e4a;
+    outline: none;
+  }
+
+  .top-tab .user-area a.logout {
+    font-weight: 700;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    margin-left: 1rem;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .top-tab .user-area a.logout:hover,
+  .top-tab .user-area a.logout:focus {
+    background: white;
+    color: #e60026;
+    outline: none;
+  }
+
+  header {
+    background: url('static/background.webp');
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ececec;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+    padding: 0 1rem;
+    margin-top: 56px;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  header p {
+    font-size: 1.3rem;
+    background: rgba(0,0,0,0.4);
+    padding: 0.7rem 1.5rem;
+    border-radius: 12px;
+  }
+
+  .summer-sale {
+    max-width: 960px;
+    margin: 3rem auto 5rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe082 100%);
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(255, 193, 7, 0.3);
+    text-align: center;
+  }
+
+  .summer-sale h2 {
+    color: #f57c00;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px #ffa726;
+  }
+
+  .summer-sale p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #bf360c;
+    font-weight: 600;
+  }
+
+  .dish-stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .dish-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+    width: 220px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .dish-card:hover,
+  .dish-card:focus-within {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(255, 152, 0, 0.5);
+    outline: none;
+  }
+
+  .dish-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-bottom: 4px solid #ffb300;
+  }
+
+  .dish-info {
+    padding: 1rem;
+  }
+
+  .dish-info h3 {
+    margin: 0 0 0.4rem 0;
+    font-size: 1.3rem;
+    color: #e65100;
+  }
+
+  .dish-info .price {
+    font-weight: 700;
+    color: #ff6f00;
+    font-size: 1.2rem;
+  }
+
+  .dish-info .old-price {
+    text-decoration: line-through;
+    color: #9e9e9e;
+    margin-left: 0.5rem;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .top-tab {
+      flex-direction: column;
+      height: auto;
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    .top-tab .nav-buttons {
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    .summer-sale {
+      margin: 2rem 1rem 3rem;
+      padding: 1rem;
+    }
+
+    .dish-card {
+      width: 45vw;
+    }
+  }
+
+    .obon-special {
+    max-width: 960px;
+    margin: 3rem auto 5rem;
+    padding: 2rem;
+    background: url('static/obon.jpeg');
+    background-size: cover;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+    .obon-special h2 {
+    color: #63187c;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px #a19595;
+    }   
+
+    .obon-special p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #f4f3f5;
+    text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    }
+
+    .obon-special .dish-card {
+    background: #fdfcfe;
+    border-radius: 16px;
+    box-shadow: 0 6px 10px rgba(123, 31, 162, 0.15);
+    width: 220px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    }
+
+.obon-special .dish-card:hover,
+.obon-special .dish-card:focus-within {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(186, 104, 200, 0.5);
+  outline: none;
+}
+
+.obon-special .dish-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-bottom: 4px solid #ba68c8;
+}
+
+    .obon-special .dish-info {
+    padding: 1rem;
+    }
+
+.obon-special .dish-info h3 {
+  margin: 0 0 0.4rem 0;
+  font-size: 1.3rem;
+  color: #7b1fa2;
+}
+
+    .obon-special .price {
+     font-weight: 700;
+    color: #9c27b0;
+    font-size: 1.2rem;
+}
+
+.obon-special .old-price {
+  text-decoration: line-through;
+  color: #9e9e9e;
+  margin-left: 0.5rem;
+  font-weight: 400;
+  font-size: 1rem;
+}
+</style>
+</head>
+<body>
+
+<div class="top-tab" role="navigation" aria-label="User Navigation">
+  <nav class="nav-buttons" aria-label="Main Buttons">
+    <a href="/menu">Menu</a>
+    <a href="/basket">Basket</a>
+    <a href="/my_orders">Orders</a>
+    <a href="/check_my_reservation">Reservation</a>
+  </nav>
+
+  <div class="user-nickname">{{ user.nickname }}'s Main Menu</div>
+
+  <div class="user-area">
+    <a href="/support">Support</a>
+    <a href="/about_us">About Us</a>
+    <a href="/logout" class="logout">Logout</a>
+  </div>
+</div>
+
+<header>
+  <h1>Welcome to Umami Moon, {{ user.nickname }}!</h1>
+  <p>We are glad to have you here.</p>
+
+</header>
+
+<section class="summer-sale" aria-label="Summer Sale Promotion">
+  <h2>&#9728; Summer Sale! &#9728;</h2>
+  <p>Enjoy refreshing discounts on some of our most loved dishes. Taste summer with every bite!</p>
+
+  <div class="dish-stack">
+
+    <div class="dish-card" tabindex="0">
+      <img src="static/menu/sushi_platter.png" alt="Sushi Platter" />
+      <div class="dish-info">
+        <h3>Sushi Platter</h3>
+        <span class="price">$22</span>
+        <span class="old-price">$26</span>
+      </div>
+    </div>
+
+    <div class="dish-card" tabindex="0">
+      <img src="static/menu/8ad52955-f449-4263-855c-d72bcf9f9a33_Mochi.png" alt="Matcha Mochi(3 pcs)" />
+      <div class="dish-info">
+        <h3>Matcha Mochi (3 pcs)</h3>
+        <span class="price">$4</span>
+        <span class="old-price">$5.50</span>
+      </div>
+    </div>
+
+    <div class="dish-card" tabindex="0">
+      <img src="static/menu/d68adca3-5bf5-42da-ab77-4a8afa770681_salmon_nigiri.png" alt="Salmon Nigiri" />
+      <div class="dish-info">
+        <h3>Salmon Nigiri</h3>
+        <span class="price">$7</span>
+        <span class="old-price">$9</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="obon-special" aria-label="Obon (Festival of the Dead) Special">
+  <h2>&#9994; Obon (Festival of the Dead) Special &#9994;</h2>
+  <p>Experience the flavors of tradition with our special dishes crafted for the Obon festival. Let us honor our ancestors with every bite. &#9994;</p>
+
+  <div class="dish-stack">
+
+    <div class="dish-card" tabindex="0">
+      <img src="static/menu/yakisoba.png" alt="Yakisoba" />
+      <div class="dish-info">
+        <h3>Yakisoba</h3>
+        <span class="price">$9</span>
+        <span class="old-price">$11</span>
+      </div>
+    </div>
+
+    <div class="dish-card" tabindex="0">
+      <img src="static/menu/okonomiyaki.jpg" alt="Okonomiyaki" />
+      <div class="dish-info">
+        <h3>Okonomiyaki</h3>
+        <span class="price">$10</span>
+        <span class="old-price">$13</span>
+      </div>
+    </div>
+
+    <div class="dish-card" tabindex="0">
+      <img src="static/menu/taiyaki.webp" alt="Taiyaki" />
+      <div class="dish-info">
+        <h3>Taiyaki (4 pcs)</h3>
+        <span class="price">$4</span>
+        <span class="old-price">$6</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

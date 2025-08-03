@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Check Reservation</title>
+</head>
+<body>
+<h2>Check Reservation</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Time</th>
+        <th>Table Type</th>
+        <th>User</th>
+        <th>Action</th>
+    </tr>
+    {% for res in all_reservations %}
+    <tr>
+        <td>{{ res.id }}</td>
+        <td>{{ res.time_start }}</td>
+        <td>{{ res.type_table }}</td>
+        <td>{{ res.user.nickname }}</td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="reserv_id" value="{{ res.id }}">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

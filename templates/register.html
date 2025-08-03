@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Register</title>
+</head>
+<body>
+    <h2>Register</h2>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            color: #2d2d2d;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .login-form {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 320px;
+        }
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #444;
+            letter-spacing: 0.08em;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+        font-size: 1.1rem;
+        padding: 0.7em 1em;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 1.2rem;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+        }
+        button[type="submit"] {
+            font-size: 1.2rem;
+            background: #e60026;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7em 2em;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #b8001c;
+        }
+    </style>
+<form class="login-form" method="POST" action="/register">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="nickname">Nickname:</label><br>
+    <input type="text" id="nickname" name="nickname" required><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
+
+    <button type="submit">Register</button>
+</form><br>
+    <form action="/login" method="GET">
+        <h6>Already have an account?</h6>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

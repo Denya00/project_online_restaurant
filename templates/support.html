@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Support Page</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            color: #2d2d2d;
+            margin-bottom: 2rem;
+        }
+
+        .menu-btn, .message-btn {
+            background: #e60026;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6em 1.5em;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 1rem 0.5rem;
+        }
+
+        .menu-btn:hover,
+        .message-btn:hover {
+            background: #b8001c;
+        }
+
+        .button-group {
+            margin-top: 2rem;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Support Page</h2>
+    <p>If you have any questions or need assistance, please contact us at <a href="mailto:support@example.com">support@example.com</a>.</p>
+    <p>For urgent issues, please call our support hotline at <strong>+1 (234) 567-890</strong>.</p>
+    <p>We are here to help you 24/7.</p>
+    <p>You are also able to message our admin</p>
+
+    <div class="button-group">
+        <a href="/welcome" class="menu-btn">Back to Main Menu</a>
+        <a href="/message_to_admin" class="message-btn">Send Message to Admin</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Menu</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            color: #2d2d2d;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .menu-item {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 320px;
+            height: 350px;
+            margin-bottom: 2rem;
+        }
+        .menu-item h3 {
+            color: #2d2d2d;
+            margin: 1rem 0 0.5rem 0;
+            max-height: 60px;
+        }
+        .menu-item p {
+            color: #444;
+            margin-bottom: 1rem;
+        }
+        .menu-item img {
+            width: 220px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .menu-item button {
+            font-size: 1.1rem;
+            background: #e60026;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.6em 1.5em;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+        .menu-item button:hover {
+            background: #b8001c;
+        }
+        .menu-item a {
+            color: #fff;
+            text-decoration: none;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 2rem 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Our Menu</h2>
+    {% for position in all_positions %}
+        <div class="menu-item">
+            {% if position.file_name %}
+                <img src="{{ url_for('static', filename='menu/' ~ position.file_name) }}" alt="{{ position.name }}">
+            {% endif %}
+            <h3>{{ position.name }}</h3>
+            <p>{{ position.ingredients }}</p>
+            <button><a href="/position/{{ position.name }}">View Details</a></button>
+        </div>
+        <hr>
+    {% endfor %}
+    <style>
+        .basket-btn {
+            position: absolute;
+            top: 24px;
+            right: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 101;
+            padding: 0;
+        }
+        .basket-btn img {
+            width: 90px;
+            height: 40px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(80, 7, 7, 0.15));
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+            gap: 1.5em;
+            font-size: 1.2em;
+        }
+        .nav-links a {
+            position: absolute;
+            top: 24px;
+            right: 140px; 
+            background: #e60026;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6em 1.5em;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            height: 22px;
+            }
+
+        .welcome-btn:hover {
+        background: #b8001c;
+        }
+        
+        .support-btn {
+            position: absolute;
+            top: 24px;
+            left: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .support-btn img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(80, 7, 7, 0.15));
+        }
+
+        .support-btn:hover img {
+            filter: drop-shadow(0 2px 6px rgba(80, 7, 7, 0.25));
+        }
+    </style>
+    <script>
+    </script>
+    <button class="basket-btn"><a href="/basket"><img src="/static/basket_red.png" alt="Basket"></a></button>
+    <!--<button class="support-btn"><a href="/support"><img src="/static/support.png" alt="Support"></a></button>-->
+
+    <div class="nav-links">
+        <a href="/welcome">Back to Main Menu</a>
+    </div>
+</body>
+</html>

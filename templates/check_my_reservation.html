@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <title>{{ current_user.nickname }}'s Reservation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        button,
+        .reserve-btn,
+        .menu-btn {
+            background: #e60026;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.2s;
+            margin: 1rem 0.5rem;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover,
+        .reserve-btn:hover,
+        .menu-btn:hover {
+            background: #b8001c;
+        }
+
+        form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Check Reservation</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if my_reservations %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Time</th>
+                    <th>Table Type</th>
+                    <th>User</th>
+                    <th>Action</th>
+                </tr>
+                {% for res in my_reservations %}
+                <tr>
+                    <td>{{ res.id }}</td>
+                    <td>{{ res.time_start }}</td>
+                    <td>{{ res.type_table }}</td>
+                    <td>{{ res.user.nickname }}</td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <input type="hidden" name="reserv_id" value="{{ res.id }}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>You have no reservation at the moment.&#128557;</p>
+            <p>Please click the button below to create a new reservation:</p>
+            <a href="/make_reservation" class="reserve-btn">Make a Reservation</a>
+        {% endif %}
+
+        <br>
+        <a href="/welcome" class="menu-btn">Back to Main Menu</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Umami Moon - Basket</title>
+    <link rel="icon" href="/static/icon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #2d2d2d;
+            margin-bottom: 2rem;
+        }
+
+        .basket-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .basket-item {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .basket-item img {
+            width: 140px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+        }
+
+        .basket-details {
+            flex-grow: 1;
+        }
+
+        .basket-details h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: #2d2d2d;
+        }
+
+        .basket-details p {
+            margin: 0.3rem 0;
+            color: #444;
+        }
+
+        .total {
+            font-size: 1.5rem;
+            color: #e60026;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            margin-top: 2rem;
+            background: #e60026;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6em 1.5em;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #b8001c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Basket</h1>
+
+    {% if basket %}
+        <div class="basket-container">
+            {% for item in basket %}
+                <div class="basket-item">
+                    {% if item.image %}
+                        <img src="{{ url_for('static', filename='menu/' ~ item.image) }}" alt="{{ item.name }}">
+                    {% endif %}
+                    <div class="basket-details">
+                        <h3>{{ item.name }}</h3>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price per item: {{ item.price }} $</p>
+                        <p><strong>Total: {{ item.price * item.quantity }} $</strong></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <p class="total">Total Price: {{ total_price }} $</p>
+    {% else %}
+        <p>Your basket is empty.</p>
+    {% endif %}
+    
+    <a href="/create_order" class="back-btn">Create Order</a>
+    <a href="/welcome" class="back-btn">Back to Main Menu</a>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Table Reservation</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            color: #2d2d2d;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            width: 320px;
+            gap: 1.5rem;
+        }
+
+        label, p {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        select, input[type="datetime-local"] {
+            padding: 0.7rem;
+            font-size: 1rem;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            outline-color: #e60026;
+            transition: border-color 0.2s ease;
+        }
+
+        select:focus, input[type="datetime-local"]:focus {
+            border-color: #e60026;
+        }
+
+        button {
+            background: #e60026;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.3s ease;
+            font-weight: 700;
+        }
+
+        button:hover {
+            background: #b8001c;
+        }
+
+        h3.message {
+            margin-top: 2rem;
+            color: #b8001c;
+            font-weight: 600;
+            text-align: center;
+            min-height: 1.5em; 
+        }
+
+        .nav-links {
+            margin-top: 2rem;
+            text-align: center;
+            right: 100px;
+            top: 20px;
+            position: absolute;
+        }
+        .nav-links a {
+            background: #e60026;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.7em 2em;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <h2>Table Reservation</h2>
+
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <p>Select table type</p>
+        <select name="table_type" required>
+            <option value="" disabled selected>Choose an option</option>
+            <option value="1-2">1-2 people</option>
+            <option value="3-4">3-4 people</option>
+            <option value="4+">More than 4 people</option>
+        </select>
+
+        <p>Select date and time</p>
+        <input type="datetime-local" name="time" required>
+
+        <button type="submit">Reserve</button>
+    </form>
+
+    <h3 class="message">{{ message }}</h3>
+
+    <div class="nav-links">
+        <a href="/welcome">Back to Main Menu</a>
+    </div>
+</body>
+</html>

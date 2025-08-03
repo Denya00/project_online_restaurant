@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Your Orders</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background-size: cover;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: #2d2d2d;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #2d2d2d;
+            text-shadow: 1px 1px 4px rgba(255,255,255,0.7);
+        }
+
+        .order {
+            background: #ffffff;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order a {
+            text-decoration: none;
+            color: #fff;
+            background: #0088cc;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-right: 1rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .order a:hover {
+            background: #0072a6;
+        }
+
+        .order form {
+            display: inline;
+        }
+
+        .delete-btn {
+            background: #e60026;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #b8001c;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+            gap: 1.5em;
+            font-size: 1.2em;
+        }
+
+        .nav-links a {
+            position: absolute;
+            top: 24px;
+            right: 140px; 
+            background: #e60026;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.6em 1.5em;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Your Orders</h2>
+
+    {% for order in us_orders %}
+        <div class="order">
+            <div class="order-info">
+                <p>Order №{{ order.id }} from {{ order.order_time.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+            <div>
+                <a href="/my_order/{{ order.id }}">Details</a>
+                <form method="POST" action="{{ url_for('delete_order', id=order.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p style="background: rgba(241, 3, 3, 0.85); padding: 1rem 2rem; border-radius: 10px; max-width: 320px; text-align:center;">You currently have no orders</p>
+    {% endfor %}
+
+    <div class="nav-links">
+        <a href="/menu">Back to Menu</a>
+    </div>
+</body>
+</html>

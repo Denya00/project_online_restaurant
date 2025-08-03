@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: url('static/background.avif');
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .welcome-title {
+            font-size: 3em;
+            font-family: 'Sawarabi Mincho', serif, 'Yu Mincho', 'MS Mincho', 'Noto Serif JP', serif;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(19, 6, 6, 0.7);
+        }
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+            gap: 1.5em;
+            font-size: 1.2em;
+        }
+        .nav-links a {
+            background: #e60026;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.7em 2em;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+        .nav-links a:hover {
+            background: #b8001c;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 class="welcome-title">Welcome to Umami Moon!</h1>
+    <div class="nav-links">
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+    </div>
+</body>
+</html>

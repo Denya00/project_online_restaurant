@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Panel</title>
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center; 
+            align-items: center;     
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #b60b0b;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+        <ul>
+            <li><a href="/reservation_check">Check Reservations</a></li>
+            <li><a href="/all_users">All Users</a></li>
+            <li><a href="/menu_check">Menu Check</a></li>
+            <li><a href="/manage_positions">Positions Management</a></li>
+            <li><a href="/logout">Logout</a></li>
+            <li><a href="/admin_messages">Admin Messages</a></li>
+        </ul>
+    </div>
+</body>
+</html>

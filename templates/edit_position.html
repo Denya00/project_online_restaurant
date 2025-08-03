@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Edit Position</title>
+</head>
+<body>
+<form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input type="hidden" name="position_id" value="{{ position.id }}">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ position.name }}" required>
+    <label for="ingredients">Ingredients:</label>
+    <textarea id="ingredients" name="ingredients" required>{{ position.ingredients }}</textarea>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required>{{ position.description }}</textarea>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" value="{{ position.price }}" required>
+    <label for="weight">Weight:</label>
+    <input type="number" id="weight" name="weight" value="{{ position.weight }}" required>
+    <button type="submit">Save Changes</button>
+    <button type="button" onclick="window.location.href='/manage_positions'">Cancel</button>
+    <button type="button" onclick="window.location.href='/delete_position/{{ position.id }}'">Delete Position</button>
+
+</form>
+</body>
+</html>

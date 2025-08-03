@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Details of Order №{{ order.id }}</title>
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background-size: cover;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #2d2d2d;
+            padding: 2rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #2d2d2d;
+            text-shadow: 1px 1px 4px rgba(255,255,255,0.7);
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.75);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 2rem;
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            border-radius: 8px;
+        }
+
+        ul li {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid #ddd;
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        form {
+            margin-top: 1.5rem;
+        }
+
+        button {
+            background: #e60026;
+            color: white;
+            font-size: 1.2rem;
+            padding: 0.8em 2.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            transition: background 0.2s ease-in-out;
+        }
+
+        button:hover {
+            background: #b8001c;
+        }
+
+        .nav-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5em;
+        }
+
+        .nav-links a {
+            background: #e60026;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.7em 2em;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            transition: background 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <h2>Your order №{{ order.id }}</h2>
+    <p>List of products:</p>
+    <ul>
+        {% for name, quantity in order.order_list.items() %}
+            <li>{{ name }} — quantity: {{ quantity }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Date and Time:</strong> {{ order.order_time }}</p>
+    <p><strong>Total Price:</strong> {{ total_price }} $</p>
+
+    <form method="POST" action="{{ url_for('delete_order', id=order.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ session['csrf_token'] }}">
+    <button type="submit">Delete the Order</button>
+    </form>
+
+    <div class="nav-links">
+        <a href="/welcome">Back to Main Menu</a>
+    </div>
+</body>
+</html>

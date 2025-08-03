@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Umami Moon - Check Menu</title>
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+</head>
+<body>
+<h2>Check Menu</h2>
+<table>
+    <tr><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th>Active</th><th>Action</th></tr>
+    {% for pos in all_positions %}
+    <tr>
+        <td>{{ pos.id }}</td>
+        <td>{{ pos.name }}</td>
+        <td>{{ pos.description }}</td>
+        <td>{{ pos.price }}</td>
+        <td>{{ "Yes" if pos.active else "No" }}</td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="hidden" name="pos_id" value="{{ pos.id }}">
+                <button type="submit" name="change_status">Change Status</button>
+                <button type="submit" name="delete_position">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
