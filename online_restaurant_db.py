@@ -11,7 +11,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if not DATABASE_URL:
     PGUSER = "postgres"
-    PGPASSWORD = "21022004"
+    PGPASSWORD = "731025"
     DATABASE_URL = f"postgresql+psycopg2://{PGUSER}:{PGPASSWORD}@localhost:5432/online_restaurant"
 
 engine = create_engine(DATABASE_URL, echo=True)
