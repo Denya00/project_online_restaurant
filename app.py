@@ -535,15 +535,15 @@ def view_messages():
 @login_required
 def chatgpt():
     if request.method == 'POST':
-        if request.form.get("csrf_token") != session["csrf_token"]:
+        if request.form.get("csrf_token") != session.get("csrf_token"):
             return "Request blocked!", 403
 
         user_message = request.form['message']
 
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  
+            model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant of the restaurant Umami Moon(Japanese cuisine)."},
+                {"role": "system", "content": "You are a helpful assistant of the restaurant Umami Moon (Japanese cuisine)."},
                 {"role": "user", "content": user_message}
             ]
         )
@@ -554,6 +554,10 @@ def chatgpt():
                                user_message=user_message,
                                bot_response=bot_response,
                                csrf_token=session["csrf_token"])
+
+    if "csrf_token" not in session:
+        import secrets
+        session["csrf_token"] = secrets.token_hex(16)
 
     return render_template('chatgpt.html', csrf_token=session["csrf_token"])
 
