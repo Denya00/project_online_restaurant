@@ -13,6 +13,7 @@ import openai
 from flask_babel import Babel, gettext as _
 
 app = Flask(__name__)
+babel = Babel(app)
 app.secret_key = secrets.token_hex(32)  
 @app.before_request
 def set_csrf_token():
@@ -20,8 +21,6 @@ def set_csrf_token():
         session['csrf_token'] = secrets.token_hex(32)
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-babel = Babel(app)
 
 LANGUAGES = {
     'en': 'English',
@@ -75,6 +74,14 @@ def apply_csp(response):
     response.headers['Content-Security-Policy'] = csp
     response.set_cookie('nonce', nonce)
     return response
+
+@babel.localeselector
+def get_locale():
+    
+    lang = request.args.get('lang')
+    if lang in LANGUAGES:
+        return lang
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 @app.route('/')
 @app.route('/home')
@@ -539,14 +546,6 @@ def view_messages():
     with Session() as session:
         messages = session.query(AdminMessage).order_by(AdminMessage.id.desc()).all()
         return render_template('admin_messages.html', messages=messages)
-    
-@babel.localeselector
-def get_locale():
-
-    lang = request.args.get('lang')
-    if lang in LANGUAGES:
-        return lang
-    return request.accept_languages.best_match(LANGUAGES.keys())
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
