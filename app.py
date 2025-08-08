@@ -24,12 +24,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 LANGUAGES = {'en': 'English', 'uk': 'Українська', 'ja': '日本語'}
 
-@babel.localeselector
 def get_locale():
     lang = request.args.get('lang')
     if lang in LANGUAGES:
         return lang
     return request.accept_languages.best_match(LANGUAGES.keys())
+
+babel.locale_selector_func = get_locale
 
 FILES_PATH = 'static/menu'
 MARGANETS_COORDS = (47.6383, 34.6421)
