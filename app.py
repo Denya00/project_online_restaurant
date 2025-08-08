@@ -9,6 +9,7 @@ import os
 import uuid
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column, joinedload
 import bcrypt
+import openai
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)  
@@ -16,6 +17,8 @@ app.secret_key = secrets.token_hex(32)
 def set_csrf_token():
     if 'csrf_token' not in session:
         session['csrf_token'] = secrets.token_hex(32)
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 FILES_PATH = 'static/menu'
@@ -528,5 +531,31 @@ def view_messages():
         messages = session.query(AdminMessage).order_by(AdminMessage.id.desc()).all()
         return render_template('admin_messages.html', messages=messages)
     
+@app.route('/chatgpt', methods=['GET', 'POST'])
+@login_required
+def chatgpt():
+    if request.method == 'POST':
+        if request.form.get("csrf_token") != session["csrf_token"]:
+            return "Request blocked!", 403
+
+        user_message = request.form['message']
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant of the restaurant Umami Moon(Japanese cuisine)."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        bot_response = response.choices[0].message['content']
+
+        return render_template('chatgpt.html',
+                               user_message=user_message,
+                               bot_response=bot_response,
+                               csrf_token=session["csrf_token"])
+
+    return render_template('chatgpt.html', csrf_token=session["csrf_token"])
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
