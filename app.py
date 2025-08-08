@@ -10,6 +10,7 @@ import uuid
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column, joinedload
 import bcrypt
 import openai
+from flask_babel import Babel, gettext as _
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)  
@@ -19,6 +20,14 @@ def set_csrf_token():
         session['csrf_token'] = secrets.token_hex(32)
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+babel = Babel(app)
+
+LANGUAGES = {
+    'en': 'English',
+    'uk': 'Українська',
+    'ja': '日本語'
+}
 
 
 FILES_PATH = 'static/menu'
@@ -530,6 +539,14 @@ def view_messages():
     with Session() as session:
         messages = session.query(AdminMessage).order_by(AdminMessage.id.desc()).all()
         return render_template('admin_messages.html', messages=messages)
+    
+@babel.localeselector
+def get_locale():
+
+    lang = request.args.get('lang')
+    if lang in LANGUAGES:
+        return lang
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
