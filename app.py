@@ -22,12 +22,14 @@ def set_csrf_token():
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-LANGUAGES = {
-    'en': 'English',
-    'uk': 'Українська',
-    'ja': '日本語'
-}
+LANGUAGES = {'en': 'English', 'uk': 'Українська', 'ja': '日本語'}
 
+@babel.localeselector
+def get_locale():
+    lang = request.args.get('lang')
+    if lang in LANGUAGES:
+        return lang
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 FILES_PATH = 'static/menu'
 MARGANETS_COORDS = (47.6383, 34.6421)
@@ -74,14 +76,6 @@ def apply_csp(response):
     response.headers['Content-Security-Policy'] = csp
     response.set_cookie('nonce', nonce)
     return response
-
-@babel.localeselector
-def get_locale():
-    
-    lang = request.args.get('lang')
-    if lang in LANGUAGES:
-        return lang
-    return request.accept_languages.best_match(LANGUAGES.keys())
 
 @app.route('/')
 @app.route('/home')
