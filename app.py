@@ -525,7 +525,7 @@ def view_messages():
 @app.route('/edit_position_panel', methods=['GET'])
 @login_required
 def edit_position_panel():
-    if current_user.nickname.strip().lower() != 'admin':
+    if current_user.nickname != 'Admin':
         return redirect(url_for('home'))
 
     with Session() as cursor:
