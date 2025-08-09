@@ -402,22 +402,16 @@ def manage_positions():
         all_positions = cursor.query(Menu).all()
     return render_template('manage_position.html', all_positions=all_positions, csrf_token=session["csrf_token"])
 
-@app.route('/edit_position', methods=['GET', 'POST'])
+@app.route('/edit_position/<int:position_id>', methods=['GET', 'POST'])
 @login_required
-def edit_position():
-    if current_user.nickname != 'Admin':
+def edit_position(position_id):
+    if current_user.nickname.strip().lower() != 'admin':
         return redirect(url_for('home'))
-
-    position_id = request.args.get('id') if request.method == 'GET' else request.form.get('position_id')
-
-    if not position_id:
-        return redirect(url_for('manage_positions'))
 
     with Session() as cursor:
         position = cursor.query(Menu).filter_by(id=position_id).first()
-
         if not position:
-            flash('Position not found!')
+            flash("Position not found")
             return redirect(url_for('manage_positions'))
 
         if request.method == 'POST':
@@ -429,12 +423,11 @@ def edit_position():
             position.description = request.form.get('description')
             position.price = request.form.get('price')
             position.weight = request.form.get('weight')
-
             cursor.commit()
             flash('Position updated successfully!')
             return redirect(url_for('manage_positions'))
 
-    return render_template('edit_position.html', position=position, csrf_token=session["csrf_token"])
+        return render_template('edit_position.html', position=position, csrf_token=session.get("csrf_token"))
 
 @app.route('/support', methods=['GET', 'POST'])
 @login_required
