@@ -429,7 +429,17 @@ def edit_position():
                 position.weight = weight
                 cursor.commit()
                 flash('Position updated successfully!')
-    return render_template('edit_position.html', csrf_token=session["csrf_token"])
+        
+        return redirect(url_for('manage_positions'))
+
+    position_id = request.args.get('id')
+    if not position_id:
+        return redirect(url_for('manage_positions'))
+    with Session() as cursor:
+        position = cursor.query(Menu).filter_by(id=position_id).first()
+    if not position:
+        return redirect(url_for('manage_positions'))
+    return render_template('edit_position.html', position=position, csrf_token=session["csrf_token"])
 
 
 
