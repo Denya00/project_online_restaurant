@@ -402,40 +402,37 @@ def manage_positions():
         all_positions = cursor.query(Menu).all()
     return render_template('manage_position.html', all_positions=all_positions, csrf_token=session["csrf_token"])
 
-@app.route('/edit_position/<int:position_id>', methods=['GET', 'POST'])
+@app.route('/edit_position', methods=['GET', 'POST'])
 @login_required
-def edit_position(position_id):
+def edit_position():
     if current_user.nickname != 'Admin':
         return redirect(url_for('home'))
 
-    if request.method == 'POST':
-        if request.form.get("csrf_token") != session["csrf_token"]:
-            return "Request blocked!", 403
+    position_id = request.args.get('id') if request.method == 'GET' else request.form.get('position_id')
 
-        name = request.form.get('name')
-        ingredients = request.form.get('ingredients')
-        description = request.form.get('description')
-        price = request.form.get('price')
-        weight = request.form.get('weight')
-
-        with Session() as cursor:
-            position = cursor.query(Menu).filter_by(id=position_id).first()
-            if position:
-                position.name = name
-                position.ingredients = ingredients
-                position.description = description
-                position.price = price
-                position.weight = weight
-                cursor.commit()
-                flash('Position updated successfully!')
-
+    if not position_id:
         return redirect(url_for('manage_positions'))
 
     with Session() as cursor:
         position = cursor.query(Menu).filter_by(id=position_id).first()
 
-    if not position:
-        return redirect(url_for('manage_positions'))
+        if not position:
+            flash('Position not found!')
+            return redirect(url_for('manage_positions'))
+
+        if request.method == 'POST':
+            if request.form.get("csrf_token") != session.get("csrf_token"):
+                return "Request blocked!", 403
+
+            position.name = request.form.get('name')
+            position.ingredients = request.form.get('ingredients')
+            position.description = request.form.get('description')
+            position.price = request.form.get('price')
+            position.weight = request.form.get('weight')
+
+            cursor.commit()
+            flash('Position updated successfully!')
+            return redirect(url_for('manage_positions'))
 
     return render_template('edit_position.html', position=position, csrf_token=session["csrf_token"])
 
