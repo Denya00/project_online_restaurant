@@ -1,10 +1,13 @@
 <!DOCTYPE html> 
-<html lang="{{ g.locale }}">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="static/icon.png" type="image/x-icon" />
-    <title>{{ _('Umami Moon - Register') }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Register</title>
+</head>
+<body>
+    <h2>Register</h2>
     <style>
         body {
             font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
@@ -39,14 +42,14 @@
             letter-spacing: 0.08em;
         }
         input[type="text"], input[type="email"], input[type="password"] {
-            font-size: 1.1rem;
-            padding: 0.7em 1em;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 1.2rem;
-            width: 100%;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
+        font-size: 1.1rem;
+        padding: 0.7em 1em;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 1.2rem;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
         }
         button[type="submit"] {
             font-size: 1.2rem;
@@ -62,72 +65,21 @@
         button[type="submit"]:hover {
             background: #b8001c;
         }
-        .lang-buttons {
-            margin-bottom: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            width: 100%;
-            max-width: 400px;
-        }
-        .lang-buttons form {
-            display: inline;
-        }
-        .lang-buttons button {
-            background: #e60026;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 0.5em 1em;
-            cursor: pointer;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            transition: background 0.2s;
-            font-size: 1rem;
-            width: 100%;
-        }
-        .lang-buttons button:hover {
-            background: #b8001c;
-        }
-        .lang-buttons .active {
-            background: #b8001c;
-            cursor: default;
-        }
     </style>
-</head>
-<body>
-    <h2>{{ _('Register') }}</h2>
+<form class="login-form" method="POST" action="/register">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="nickname">Nickname:</label><br>
+    <input type="text" id="nickname" name="nickname" required><br>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br>
 
-    <div class="lang-buttons">
-        <form method="GET" action="">
-            <input type="hidden" name="lang" value="en" />
-            <button type="submit" class="{% if g.locale == 'en' %}active{% endif %}">English</button>
-        </form>
-        <form method="GET" action="">
-            <input type="hidden" name="lang" value="uk" />
-            <button type="submit" class="{% if g.locale == 'uk' %}active{% endif %}">Українська</button>
-        </form>
-        <form method="GET" action="">
-            <input type="hidden" name="lang" value="ja" />
-            <button type="submit" class="{% if g.locale == 'ja' %}active{% endif %}">日本語</button>
-        </form>
-    </div>
-
-    <form class="login-form" method="POST" action="/register">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <label for="nickname">{{ _('Nickname') }}:</label><br>
-        <input type="text" id="nickname" name="nickname" required><br>
-        <label for="email">{{ _('Email') }}:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="password">{{ _('Password') }}:</label><br>
-        <input type="password" id="password" name="password" required><br>
-
-        <button type="submit">{{ _('Register') }}</button>
-    </form><br>
-
+    <button type="submit">Register</button>
+</form><br>
     <form action="/login" method="GET">
-        <h6>{{ _('Already have an account?') }}</h6>
-        <button type="submit">{{ _('Login') }}</button>
+        <h6>Already have an account?</h6>
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>

@@ -1,84 +1,96 @@
 <!DOCTYPE html> 
-<html lang="{{ g.locale }}">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="static/icon.png" type="image/x-icon" />
-    <title>{{ _('Umami Moon - Login') }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/icon.png" type="image/x-icon">
+    <title>Umami Moon - Login</title>
     <style>
-        .lang-buttons {
-            margin-bottom: 1.5rem;
+        body {
+            font-family: 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+            background: #f7f7f7;
             display: flex;
-            gap: 1rem;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            min-height: 100vh;
         }
-        .lang-buttons form {
-            display: inline;
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            color: #2d2d2d;
+            margin-bottom: 2rem;
+            text-align: center;
         }
-        .lang-buttons button {
+        .login-form {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 320px;
+        }
+        label {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #444;
+            letter-spacing: 0.08em;
+        }
+        input[type="password"],
+        input[type="email"] {
+            font-size: 1.1rem;
+            padding: 0.7em 1em;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button[type="submit"] {
+            font-size: 1.2rem;
             background: #e60026;
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 6px;
-            padding: 0.5em 1em;
+            border-radius: 8px;
+            padding: 0.7em 2em;
             cursor: pointer;
-            font-weight: 600;
             letter-spacing: 0.1em;
             transition: background 0.2s;
-            font-size: 1rem;
         }
-        .lang-buttons button:hover {
+        button[type="submit"]:hover {
             background: #b8001c;
-        }
-        .lang-buttons .active {
-            background: #b8001c;
-            cursor: default;
         }
     </style>
 </head>
 <body>
-    <h2>{{ _('Login') }}</h2>
-
-    <div class="lang-buttons">
-        <form method="GET" action="">
-            <input type="hidden" name="lang" value="en" />
-            <button type="submit" class="{% if g.locale == 'en' %}active{% endif %}">English</button>
-        </form>
-        <form method="GET" action="">
-            <input type="hidden" name="lang" value="uk" />
-            <button type="submit" class="{% if g.locale == 'uk' %}active{% endif %}">Українська</button>
-        </form>
-        <form method="GET" action="">
-            <input type="hidden" name="lang" value="ja" />
-            <button type="submit" class="{% if g.locale == 'ja' %}active{% endif %}">日本語</button>
-        </form>
-    </div>
-
+    <h2>Login</h2>
+    
     <form class="login-form" method="POST" action="/login">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-        <label for="email">{{ _('Email') }}:</label>
+        <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
 
-        <label for="password">{{ _('Password') }}:</label>
+        <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
 
-        <button type="submit">{{ _('Login') }}</button>
+        <button type="submit">Login</button>
     </form>
 
     <form action="/register" method="GET" style="margin-top: 1rem;">
-        <h6>{{ _("Don't have an account?") }}</h6>
-        <button type="submit">{{ _('Create Account') }}</button>
+        <h6>Don't have an account?</h6>
+        <button type="submit">Create Account</button>
     </form>
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul>
-        {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-    {% endwith %}
 </body>
 </html>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul>
+      {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
