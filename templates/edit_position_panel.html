@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Position Panel</title>
+</head>
+<body>
+<h1>Dish Editing Panel</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    {% for position in positions %}
+    <tr>
+        <td>{{ position.id }}</td>
+        <td>{{ position.name }}</td>
+        <td>{{ position.price }}</td>
+        <td>
+            <a href="{{ url_for('edit_position', position_id=position.id) }}">Edit</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

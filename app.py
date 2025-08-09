@@ -521,6 +521,17 @@ def view_messages():
     with Session() as session:
         messages = session.query(AdminMessage).order_by(AdminMessage.id.desc()).all()
         return render_template('admin_messages.html', messages=messages)
+    
+@app.route('/edit_position_panel', methods=['GET'])
+@login_required
+def edit_position_panel():
+    if current_user.nickname.strip().lower() != 'admin':
+        return redirect(url_for('home'))
+
+    with Session() as cursor:
+        positions = cursor.query(Menu).all()
+
+    return render_template('edit_position_panel.html', positions=positions)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0")
