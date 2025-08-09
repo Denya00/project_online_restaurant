@@ -430,7 +430,6 @@ def edit_position():
                 cursor.commit()
                 flash('Position updated successfully!')
 
-    return redirect(url_for('manage_positions'))
 
 
 
