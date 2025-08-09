@@ -429,6 +429,7 @@ def edit_position():
                 position.weight = weight
                 cursor.commit()
                 flash('Position updated successfully!')
+    return render_template('edit_position.html', csrf_token=session["csrf_token"])
 
 
 
