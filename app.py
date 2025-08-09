@@ -9,28 +9,13 @@ import os
 import uuid
 from sqlalchemy.orm import sessionmaker, relationship, Mapped, mapped_column, joinedload
 import bcrypt
-import openai
-from flask_babel import Babel, gettext as _
 
 app = Flask(__name__)
-babel = Babel(app)
 app.secret_key = secrets.token_hex(32)  
 @app.before_request
 def set_csrf_token():
     if 'csrf_token' not in session:
         session['csrf_token'] = secrets.token_hex(32)
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-LANGUAGES = {'en': 'English', 'uk': 'Українська', 'ja': '日本語'}
-
-def get_locale():
-    lang = request.args.get('lang')
-    if lang in LANGUAGES:
-        return lang
-    return request.accept_languages.best_match(LANGUAGES.keys())
-
-babel.locale_selector_func = get_locale
 
 FILES_PATH = 'static/menu'
 MARGANETS_COORDS = (47.6383, 34.6421)
