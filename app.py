@@ -402,9 +402,9 @@ def manage_positions():
         all_positions = cursor.query(Menu).all()
     return render_template('manage_position.html', all_positions=all_positions, csrf_token=session["csrf_token"])
 
-@app.route('/edit_position', methods=['GET', 'POST'])
+@app.route('/edit_position/<int:position_id>', methods=['GET', 'POST'])
 @login_required
-def edit_position():
+def edit_position(position_id):
     if current_user.nickname != 'Admin':
         return redirect(url_for('home'))
 
@@ -412,7 +412,6 @@ def edit_position():
         if request.form.get("csrf_token") != session["csrf_token"]:
             return "Request blocked!", 403
 
-        position_id = request.form.get('position_id')
         name = request.form.get('name')
         ingredients = request.form.get('ingredients')
         description = request.form.get('description')
@@ -429,20 +428,16 @@ def edit_position():
                 position.weight = weight
                 cursor.commit()
                 flash('Position updated successfully!')
-        
+
         return redirect(url_for('manage_positions'))
 
-    position_id = request.args.get('id')
-    if not position_id:
-        return redirect(url_for('manage_positions'))
     with Session() as cursor:
         position = cursor.query(Menu).filter_by(id=position_id).first()
+
     if not position:
         return redirect(url_for('manage_positions'))
+
     return render_template('edit_position.html', position=position, csrf_token=session["csrf_token"])
-
-
-
 
 @app.route('/support', methods=['GET', 'POST'])
 @login_required
